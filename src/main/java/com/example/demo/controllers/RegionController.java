@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,20 +9,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.demo.daos.RegionDao;
+import com.example.demo.Services.RegionService;
+//import com.example.demo.daos.RegionDao;
 import com.example.demo.models.Region;
-import com.example.demo.tools.DBConnection;
+//import com.example.demo.tools.DBConnection;
 //import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 @Controller
 @RequestMapping("region")
 public class RegionController {
-    private RegionDao rdao = new RegionDao(DBConnection.getConnection());
+    //private RegionDao rdao = new RegionDao(DBConnection.getConnection());
+    @Autowired
+    private RegionService  regionService;
 
     // CREATE
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("regions", rdao.getAll());
+        model.addAttribute("regions", regionService.getALL());
         return "region/index";
     }
 
@@ -30,7 +34,7 @@ public class RegionController {
     @GetMapping(value = {"form", "form/{id}"})
     public String create(@PathVariable(required = false) Integer id, Model model){
         if(id != null){
-            model.addAttribute("region", rdao.getById(id));
+            model.addAttribute("region", regionService.getById(id));
         } else {
             model.addAttribute("region", new Region());
         }
@@ -42,9 +46,9 @@ public class RegionController {
     public String save(@Nullable Region region){
         Boolean result;
         if(region.getId() != null){
-            result = rdao.updateData(region);
+            result = regionService.save (region);
         } else {
-            result = rdao.insertData(region);
+            result = regionService.save(region);
         }
         if(result){
             return "redirect:/region";
@@ -56,7 +60,7 @@ public class RegionController {
     //DELETE
     @PostMapping(value = {"delete/{id}"})
     public  String delete(@PathVariable Integer id){
-        Boolean result = rdao.delete(id);
+        Boolean result = regionService.delete(id);
         if(result){
             return "redirect:/region";
         } else {
