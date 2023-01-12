@@ -7,5 +7,4 @@ public interface RegionService {
     public Region getById(Integer id);
     public Boolean save(Region region);
     public Boolean delete(Integer id);
-
 }

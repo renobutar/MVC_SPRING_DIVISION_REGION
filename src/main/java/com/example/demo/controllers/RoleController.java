@@ -9,59 +9,51 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.demo.Services.RegionService;
-
-import com.example.demo.models.Region;
-
+import com.example.demo.Services.RoleService;
+import com.example.demo.models.Role;
 
 @Controller
-@RequestMapping("region")
-public class RegionController {
-   
+@RequestMapping("role")
+public class RoleController {
     @Autowired
-    private RegionService  regionService;
+    private RoleService roleService;
 
-    // CREATE
-    @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("regions", regionService.getALL());
-        return "region/index";
+    @GetMapping
+    public String index(Model model){
+        model.addAttribute("roles", roleService.getALL());
+        return "role/index";
     }
 
-    // CREATE
-    // GET
     @GetMapping(value = {"form", "form/{id}"})
     public String create(@PathVariable(required = false) Integer id, Model model){
         if(id != null){
-            model.addAttribute("region", regionService.getById(id));
+            model.addAttribute("role", roleService.getById(id));
         } else {
-            model.addAttribute("region", new Region());
+            model.addAttribute("role", new Role());
         }
-        return "region/form";
+        return "role/form";
     }
 
-    // POST
     @PostMapping("save")
-    public String save(@Nullable Region region){
+    public String save(@Nullable Role role){
         Boolean result;
-        if(region.getId() != null){
-            result = regionService.save (region);
+        if(role.getId() != null){
+            result = roleService.save (role);
         } else {
-            result = regionService.save(region);
+            result = roleService.save(role);
         }
         if(result){
-            return "redirect:/region";
+            return "redirect:/role";
         } else {
-            return "region/form";
+            return "role/form";
         }
     }
 
-    //DELETE
     @PostMapping(value = {"delete/{id}"})
     public  String delete(@PathVariable Integer id){
-        Boolean result = regionService.delete(id);
+        Boolean result = roleService.delete(id);
         if(result){
-            return "redirect:/region";
+            return "redirect:/role";
         } else {
             return "Failed Delete";
         }

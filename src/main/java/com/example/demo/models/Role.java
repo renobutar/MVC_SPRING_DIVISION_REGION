@@ -1,23 +1,21 @@
 package com.example.demo.models;
-
 import javax.persistence.*;
 
 
 @Entity
-@Table(name = "tb_m_division")
+@Table(name = "Role")
 
-public class Division {
+public class Role {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer Id;
 
-    @Column(name = "name", nullable = false) 
+    @Column(name = "name")
     private String Name;
 
-    @ManyToOne
-    @JoinColumn(name = "region_id", referencedColumnName = "id")
-    private Region region;
+    @Column(name = "level")
+    private Integer Level;
 
     public void setId(Integer id){
         Id = id;
@@ -28,19 +26,18 @@ public class Division {
     }
 
     public void setName(String name){
-        Name = name;
+        Name  = name;
     }
-
-    public String getName(){
+     public String getName(){
         return Name;
     }
 
-    public void setRegion(Region region){
-        this.region = region;   
+    public void setLevel(Integer level){
+        Level = level;
     }
 
-    public Region getRegion(){
-        return region;
+    public Integer getLevel(){
+        return Level;
     }
-
+    
 }
