@@ -23,7 +23,6 @@ public class RegionServiceImpl implements RegionService{
     public Region getById(Integer id) {
         
         return regionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Region Tidak Ditemukan"));
-    
 
     }
 
